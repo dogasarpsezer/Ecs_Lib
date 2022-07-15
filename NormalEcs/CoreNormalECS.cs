@@ -10,10 +10,7 @@ namespace NormalEcs
         private void Awake()
         {
             world = new World();
-            systemManager = new SystemManager(world);
-            
-            systemManager.AddSystem(new SystemDeneme());
-            
+            systemManager = new SystemManager(world);            
             systemManager.Awake();
         }
 

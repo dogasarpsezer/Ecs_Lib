@@ -12,10 +12,6 @@ namespace NormalEcs
         {
             coreNormalEcs = FindObjectOfType<CoreNormalECS>();
             entity = CreateGameObjectEntity(coreNormalEcs.GetWorld(), gameObject);
-            entity.AddComponent(new TransformComponent()
-            {
-                transform = transform
-            });
         }
         
         public static Entity CreateGameObjectEntity(World world, GameObject unityGameObject)
