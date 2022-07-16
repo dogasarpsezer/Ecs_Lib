@@ -4,21 +4,15 @@ using UnityEngine;
 
 namespace NormalEcs
 {
-    public class SystemManager
+    [RequireComponent(typeof(CoreNormalECS))]
+    public class SystemManager : MonoBehaviour
     {
         private List<System> systems = new List<System>();
-        private World world = new World();
 
-        public SystemManager(World world)
-        {
-            this.world = world;
-        }
-        
         public void Awake()
         {
             foreach (var system in systems)
             {
-                system.world = world;
                 system.Awake();
             }
         }
@@ -55,7 +49,7 @@ namespace NormalEcs
             }
         }
 
-        public void AddSystem<T>(T system) where T: System
+        public void AddSystem<T>(T system,World world) where T: System
         {
             system.world = world;
             systems.Add(system);

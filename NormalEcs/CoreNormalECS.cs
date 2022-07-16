@@ -10,28 +10,8 @@ namespace NormalEcs
         private void Awake()
         {
             world = new World();
-            systemManager = new SystemManager(world);            
-            systemManager.Awake();
-        }
-
-        private void Start()
-        {
-            systemManager.Start();
-        }
-
-        private void Update()
-        {
-            systemManager.Update();
-        }
-
-        private void LateUpdate()
-        {
-            systemManager.LateUpdate();
-        }
-
-        private void FixedUpdate()
-        {
-            systemManager.FixedUpdate();
+            systemManager = gameObject.GetComponent<SystemManager>();
+            systemManager.AddSystem(new MoveSystem(),world);
         }
         
         public World GetWorld()
