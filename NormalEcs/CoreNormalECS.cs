@@ -11,7 +11,6 @@ namespace NormalEcs
         {
             world = new World();
             systemManager = gameObject.GetComponent<SystemManager>();
-            systemManager.AddSystem(new MoveSystem(),world);
         }
         
         public World GetWorld()
