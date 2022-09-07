@@ -8,6 +8,11 @@ using UnityEngine;
 public struct TransformComp : INormalComponent
 {
     public Transform transform;
+
+    public string GetValuesString()
+    {
+        return transform.ToString();
+    }
 }
 
 public class TransformSerialized : InspectorComponent<TransformComp>

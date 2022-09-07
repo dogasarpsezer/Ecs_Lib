@@ -1,5 +1,7 @@
 ﻿using System;
+using PlayerInput;
 using UnityEngine;
+using WorldBuilder;
 
 namespace NormalEcs
 {
@@ -11,7 +13,7 @@ namespace NormalEcs
         {
             world = new World();
             systemManager = gameObject.GetComponent<SystemManager>();
-            systemManager.AddSystem(new MoveSystem(),world);
+            systemManager.AddSystem(new WorldBuildingSystem(),world);
         }
         
         public World GetWorld()

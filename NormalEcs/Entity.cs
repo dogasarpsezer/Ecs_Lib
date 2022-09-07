@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace NormalEcs
 {
@@ -10,7 +13,7 @@ public class Entity
     public int creationId;
     public BitArray componentBitMask = new BitArray(64);
     public BitArray labelBitMask = new BitArray(64);
-    private World world;
+    public World world;
     private GameObject unityGameObject;
     public Entity(int entityId,int creationId,World world, GameObject unityGameObject)
     {
@@ -20,7 +23,7 @@ public class Entity
         this.world = world;
         this.unityGameObject = unityGameObject;
     }
-
+    
     public bool IsNull()
     {
         return this == null;
@@ -65,7 +68,7 @@ public class Entity
     {
         return (T)world.componentPools[world.GetComponentId<T>()].componentPool.array[entityId];
     }
-
+    
     public void RemoveComponent<T>() where T : struct, INormalComponent
     {
         var compId = world.GetComponentId<T>();
@@ -90,7 +93,23 @@ public class Entity
     {
         return labelBitMask[world.GetLabelId<T>()];
     }
+    
+    
+    
+    public List<Type> GetAllLabel()
+    {
+        List<Type> labelTypes = new List<Type>();
+        for (int i = 0; i < labelBitMask.Length; i++)
+        {
+            if (labelBitMask[i])
+            {
+                labelTypes.Add(world.GetLabelType(i));
+            }
+        }
 
+        return labelTypes;
+    }
+    
     public void RemoveLabel<T>() where T : struct, INormalLabel
     {
         labelBitMask[world.GetLabelId<T>()] = false;
@@ -111,6 +130,8 @@ public class Entity
         entityId = -entityId;
         world.entityData.entities.Pop(entityId);
     }
+    
+    
 }
 
 }
