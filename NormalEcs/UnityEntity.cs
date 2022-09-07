@@ -11,6 +11,7 @@ namespace NormalEcs
         private void Awake()
         {
             coreNormalEcs = FindObjectOfType<CoreNormalECS>();
+            if(!coreNormalEcs) Debug.LogError("There is no ECS_CORE prefab in the scene");
             entity = CreateGameObjectEntity(coreNormalEcs.GetWorld(), gameObject);
             entity.AddComponent(new TransformComp()
             {
