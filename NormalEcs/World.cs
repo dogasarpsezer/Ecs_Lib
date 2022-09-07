@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using NormalEcs;
 using UnityEngine;
+using UnityEngine.UI;
 using Debug = UnityEngine.Debug;
 
 
@@ -28,9 +29,6 @@ public class World
     
     public ComponentPool[] componentPools = new ComponentPool[64];
     public EntityData entityData = new EntityData(64);
-    public Transform entity1Trans,entity2Trans,entity3Trans;
-    public bool trigger = false;
-    
     public Entity CreateEntity(GameObject unityGameObject)
     {
         int id = entityData.entities.arrayVolume;
@@ -58,6 +56,19 @@ public class World
         return componentCounter - 1;
     }
 
+    public Type GetComponentType(int index)
+    {
+        foreach (var type in componentIdCenter)
+        {
+            if (type.Value == index)
+            {
+                return type.Key;
+            }
+        }
+
+        return typeof(INormalComponent);
+    }
+    
     public int GetLabelId<T>() where T : struct, INormalLabel
     {
         var tagType = typeof(T);
@@ -65,6 +76,32 @@ public class World
         labelIdCenter.Add(tagType,labelCounter);
         labelCounter++;
         return labelCounter - 1;
+    }
+
+    public Type GetLabelType(int idx)
+    {
+        foreach (var label in labelIdCenter)
+        {
+            if (label.Value == idx)
+            {
+                return label.Key;
+            }
+        }
+
+        return typeof(INormalLabel);
+    }
+
+    public Type GetComponent(int index)
+    {
+        foreach (var component in componentIdCenter)
+        {
+            if (component.Value == index)
+            {
+                return component.Key;
+            }
+        }
+
+        return typeof(INormalComponent);
     }
 }
 
