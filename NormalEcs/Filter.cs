@@ -36,7 +36,7 @@ namespace NormalEcs
             return this;
         }
         
-        public virtual List<Entity> FilterEntities()
+        protected virtual List<Entity> FilterEntities()
         {
             return new List<Entity>();
         }
@@ -71,7 +71,7 @@ namespace NormalEcs
             return this;
         }
         
-        public override List<Entity> FilterEntities()
+        protected override List<Entity> FilterEntities()
         {
             int entityCount = 0;
             List<Entity> entitiesCatched = new List<Entity>();
@@ -118,7 +118,7 @@ namespace NormalEcs
             return this;
         }
         
-        public override List<Entity> FilterEntities()
+        protected override List<Entity> FilterEntities()
         {
             int entityCount = 0;
             List<Entity> entitiesCatched = new List<Entity>();
@@ -167,7 +167,7 @@ namespace NormalEcs
             return this;
         }
         
-        public override List<Entity> FilterEntities()
+        protected override List<Entity> FilterEntities()
         {
             int entityCount = 0;
             List<Entity> entitiesCatched = new List<Entity>();
@@ -218,7 +218,7 @@ namespace NormalEcs
             return this;
         }
         
-        public override List<Entity> FilterEntities()
+        protected override List<Entity> FilterEntities()
         {
             int entityCount = 0;
             List<Entity> entitiesCatched = new List<Entity>();
@@ -271,7 +271,7 @@ namespace NormalEcs
             return this;
         }
         
-        public override List<Entity> FilterEntities()
+        protected override List<Entity> FilterEntities()
         {
             int entityCount = 0;
             List<Entity> entitiesCatched = new List<Entity>();

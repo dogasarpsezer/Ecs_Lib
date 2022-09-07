@@ -2,9 +2,19 @@
 
 namespace NormalEcs
 {
-    public class System
+    public abstract class System
     {
-        public World world;
+        private World world;
+        
+        public void SetWorld(ref World world)
+        {
+            this.world = world;
+        }
+
+        public World GetWorld()
+        {
+            return world;
+        }
         
         public virtual void Awake(){}
         public virtual void Start(){}

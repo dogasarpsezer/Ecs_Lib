@@ -8,7 +8,19 @@ namespace NormalEcs
     public class SystemManager : MonoBehaviour
     {
         private List<System> systems = new List<System>();
+        private World systemWorld;
 
+        public SystemManager()
+        {
+            systems = new List<System>();
+        }
+        
+        public SystemManager(World world)
+        {
+            systems = new List<System>();
+            systemWorld = world;
+        }
+        
         public void Awake()
         {
             foreach (var system in systems)
@@ -49,9 +61,15 @@ namespace NormalEcs
             }
         }
 
-        public void AddSystem<T>(T system,World world) where T: System
+        public void SetWorld(ref World world)
         {
-            system.world = world;
+            systemWorld = world;
+        }
+        
+        public void AddSystem<T>(T system) where T: System
+        {
+            system.SetWorld(ref systemWorld);
+            
             systems.Add(system);
         }
     }
