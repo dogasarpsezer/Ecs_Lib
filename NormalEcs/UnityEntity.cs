@@ -22,17 +22,17 @@ namespace NormalEcs
         public static Entity CreateGameObjectEntity(World world, GameObject unityGameObject)
         {
             if(!unityGameObject.TryGetComponent(out UnityEntity unityEntity)) Debug.LogError("Trying to create an object that is not an entity");
-            int id = world.entityData.entities.arrayVolume;
-            if (world.entityData.entityIDRecycleQueue.Count > 0)
+            int id = world.entityData.GetEntityArray().arrayVolume;
+            if (world.entityData.GetDeadEntities().Count > 0)
             {
-                id = world.entityData.entityIDRecycleQueue.Dequeue();
-                Entity newEntityRecycled = new Entity(id, world.entityData.entities.arrayVolume,world,unityGameObject);
-                world.entityData.entities.AddAtIndex(newEntityRecycled,id);
+                id = world.entityData.GetDeadEntities().Dequeue();
+                Entity newEntityRecycled = new Entity(id, world.entityData.GetEntityArray().arrayVolume,world,unityGameObject);
+                world.entityData.GetEntityArray().AddAtIndex(newEntityRecycled,id);
                 return newEntityRecycled;
             }
 
             Entity newEntity = new Entity(id, id,world,unityGameObject);
-            world.entityData.entities.Add(newEntity);
+            world.entityData.GetEntityArray().Add(newEntity);
             return newEntity;
         }
     }

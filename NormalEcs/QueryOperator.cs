@@ -9,35 +9,33 @@ namespace NormalEcs
         public List<int> excludeComponents;
         public List<int> includeLabel;
         public List<int> excludeLabel;
-        private World world;
         
-        public QueryOperator(World world)
+        public QueryOperator()
         {
             includeComponents = new List<int>();
             excludeComponents = new List<int>();
             includeLabel = new List<int>();
             excludeLabel = new List<int>();
-            this.world = world;
         }
-
+        
         public void IncludeComponent<T>() where T : struct, INormalComponent
         {
-            includeComponents.Add(world.GetComponentId<T>());
+            includeComponents.Add(ComponentManager.GetComponentId<T>());
         }
 
         public void ExcludeComponent<T>() where T : struct, INormalComponent
         {
-            excludeComponents.Add(world.GetComponentId<T>());
+            excludeComponents.Add(ComponentManager.GetComponentId<T>());
         }
 
         public void IncludeLabel<T>() where T : struct, INormalLabel
         {
-            includeLabel.Add(world.GetLabelId<T>());
+            includeLabel.Add(ComponentManager.GetLabelId<T>());
         }
 
         public void ExcludeLabel<T>() where T : struct, INormalLabel
         {
-            excludeLabel.Add(world.GetLabelId<T>());
+            excludeLabel.Add(ComponentManager.GetLabelId<T>());
         }
         
         public bool Query(BitArray entityComponentMask,BitArray entityLabelMask)

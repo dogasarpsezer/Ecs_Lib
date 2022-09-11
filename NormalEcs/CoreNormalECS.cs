@@ -17,6 +17,7 @@ namespace NormalEcs
             systemManager.SetWorld(ref world);
             
             SetSystems();
+            systemManager.HandleInjection();
         }
         
         public World GetWorld()
@@ -27,7 +28,7 @@ namespace NormalEcs
 
         public void SetSystems()
         {
-            systemManager.AddSystem(new MoveSystem());
+            systemManager.AddSystem(new DefaultNamespace.ECS_TEST.MoveSystem());
         }
     }
 }

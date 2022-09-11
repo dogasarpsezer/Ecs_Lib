@@ -6,7 +6,6 @@ using NormalEcs;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
-using WorldBuilder;
 using Object = System.Object;
 
 [CustomEditor(typeof(UnityEntity))]
@@ -15,6 +14,7 @@ public class EntityTracker : Editor
 
     public override void OnInspectorGUI()
     {
+        #if UNITY_EDITOR
         UnityEntity unityEntity = (UnityEntity) target;
         if (Application.isPlaying)
         {
@@ -46,8 +46,8 @@ public class EntityTracker : Editor
             {
                 if (unityEntity.entity.componentBitMask[i])
                 {
-                    var compType = unityEntity.entity.world.GetComponentType(i);
-                    var comp = Convert.ChangeType(unityEntity.entity.world.componentPools[i].componentPool
+                    var compType = ComponentManager.GetComponentType(i);
+                    var comp = Convert.ChangeType(ComponentManager.componentPools[i].componentPool
                         .array[unityEntity.entity.entityId],compType);
                     FieldInfo[] fieldInfo = compType.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
                     
@@ -73,9 +73,9 @@ public class EntityTracker : Editor
                                 EditorGUILayout.Vector2Field("" + info.Name, (Vector2) info.GetValue(comp));
                             info.SetValue(comp,newValue);
                         }
-                        else if(info.FieldType == typeof(WorldType))
+                        else if (info.FieldType == typeof(Vector3))
                         {
-                            WorldType newValue = (WorldType)EditorGUILayout.EnumPopup("" + info.Name, (Enum) info.GetValue(comp));
+                            Vector3 newValue = EditorGUILayout.Vector3Field("" + info.Name, (Vector3) info.GetValue(comp));
                             info.SetValue(comp,newValue);
                         }
                         else if (info.FieldType == typeof(Transform))
@@ -95,5 +95,6 @@ public class EntityTracker : Editor
                 }
             }
         }
+        #endif
     }
 }

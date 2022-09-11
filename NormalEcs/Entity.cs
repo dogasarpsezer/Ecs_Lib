@@ -36,7 +36,7 @@ public class Entity
 
     public bool isAlive()
     {
-        if (world.entityData.entityIDRecycleQueue.Contains(entityId))
+        if (world.entityData.GetDeadEntities().Contains(entityId))
         {
             return false;
         }
@@ -54,24 +54,24 @@ public class Entity
             return;
         }
 
-        var idBit = world.GetComponentId<T>();
+        var idBit = ComponentManager.GetComponentId<T>();
         componentBitMask.Set(idBit,true);
-        world.componentPools[idBit].componentPool.array[entityId] = component;
+        ComponentManager.componentPools[idBit].componentPool.array[entityId] = component;
     }
     
     public bool HasComponent<T>() where T : struct,INormalComponent
     {
-        return componentBitMask[world.GetComponentId<T>()];
+        return componentBitMask[ComponentManager.GetComponentId<T>()];
     }
     
     public T GetComponent<T>() where T:struct,INormalComponent
     {
-        return (T)world.componentPools[world.GetComponentId<T>()].componentPool.array[entityId];
+        return (T)ComponentManager.componentPools[ComponentManager.GetComponentId<T>()].componentPool.array[entityId];
     }
     
     public void RemoveComponent<T>() where T : struct, INormalComponent
     {
-        var compId = world.GetComponentId<T>();
+        var compId = ComponentManager.GetComponentId<T>();
         if (!componentBitMask[compId])
         {
             #if UNITY_EDITOR
@@ -80,18 +80,18 @@ public class Entity
             #endif
             return;
         }
-        world.componentPools[compId].componentPool.Pop(entityId);
+        ComponentManager.componentPools[compId].componentPool.Pop(entityId);
         componentBitMask[compId] = false;
     }
 
     public void AddLabel<T>() where T : struct, INormalLabel
     {
-        labelBitMask[world.GetLabelId<T>()] = true;
+        labelBitMask[ComponentManager.GetLabelId<T>()] = true;
     }
 
     public bool HasLabel<T>() where T : struct, INormalLabel
     {
-        return labelBitMask[world.GetLabelId<T>()];
+        return labelBitMask[ComponentManager.GetLabelId<T>()];
     }
     
     
@@ -103,7 +103,7 @@ public class Entity
         {
             if (labelBitMask[i])
             {
-                labelTypes.Add(world.GetLabelType(i));
+                labelTypes.Add(ComponentManager.GetLabelType(i));
             }
         }
 
@@ -112,7 +112,7 @@ public class Entity
     
     public void RemoveLabel<T>() where T : struct, INormalLabel
     {
-        labelBitMask[world.GetLabelId<T>()] = false;
+        labelBitMask[ComponentManager.GetLabelId<T>()] = false;
     }
 
     public void RemoveAllLabels<T>() where T : struct, INormalLabel
@@ -122,13 +122,13 @@ public class Entity
     
     public void Destroy()
     {
-        foreach (var compPool in world.componentPools)
+        foreach (var compPool in ComponentManager.componentPools)
         {
             compPool.componentPool.Pop(entityId);
         }
-        world.entityData.entityIDRecycleQueue.Enqueue(entityId);
+        world.entityData.GetDeadEntities().Enqueue(entityId);
         entityId = -entityId;
-        world.entityData.entities.Pop(entityId);
+        world.entityData.GetEntityArray().Pop(entityId);
     }
     
     
