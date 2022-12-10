@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using NormalLib.NormalSystems;
+﻿using NormalLib.NormalSystems;
 using UnityEngine;
 
 namespace NormalEcs
